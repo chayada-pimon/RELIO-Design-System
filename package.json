@@ -1,0 +1,12 @@
+{
+  "name": "relio-design-system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "bun scripts/dev.mjs",
+    "dev:node": "node scripts/dev.mjs"
+  },
+  "devDependencies": {
+    "react-grab": "^0.2.0"
+  }
+}

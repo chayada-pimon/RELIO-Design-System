@@ -1,0 +1,22 @@
+/* Tailwind v4. Import after Tailwind and relio-tokens.css. */
+@theme inline {
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-raised: var(--bg-raised);
+  --color-content: var(--text-primary);
+  --color-content-secondary: var(--text-secondary);
+  --color-content-muted: var(--text-muted);
+  --color-line: var(--border-default);
+  --color-control: var(--border-control);
+  --color-crm: var(--crm-fg);
+  --color-crm-soft: var(--crm-bg);
+  --color-oms: var(--oms-fg);
+  --color-oms-soft: var(--oms-bg);
+  --color-action: var(--action-primary);
+  --color-on-action: var(--action-on-primary);
+  --font-sans: 'Bai Jamjuree', 'Noto Sans Thai', Arial, ui-sans-serif, system-ui, sans-serif;
+  --radius-control: var(--radius-sm);
+  --radius-button: var(--radius-md);
+  --radius-card: var(--radius-lg);
+  --radius-panel: var(--radius-xl);
+}

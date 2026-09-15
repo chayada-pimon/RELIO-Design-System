@@ -1,0 +1,88 @@
+{
+  "name": "RELIO",
+  "revision": 2,
+  "schema": "RELIO semantic colors v1 (custom schema)",
+  "themes": {
+    "light": {
+      "bg-canvas": "#F7F8FA",
+      "bg-surface": "#fff",
+      "bg-raised": "#F0F2F5",
+      "text-primary": "#202124",
+      "text-secondary": "#525866",
+      "text-muted": "#7D8592",
+      "border-default": "#D8DDE5",
+      "border-control": "#7D8592",
+      "brand-crm": "#28C6CD",
+      "brand-oms": "#1463D6",
+      "crm-bg": "#E9FAFB",
+      "crm-fg": "#086B73",
+      "oms-bg": "#EDF4FF",
+      "oms-fg": "#1463D6",
+      "action-primary": "#1463D6",
+      "action-primary-hover": "#0F4FAE",
+      "action-on-primary": "#fff",
+      "link": "#1463D6",
+      "focus-ring": "#1463D6",
+      "status-success": "#18734A",
+      "status-warning": "#8A4B08",
+      "status-danger": "#B42318"
+    },
+    "dark": {
+      "bg-canvas": "#18191B",
+      "bg-surface": "#222427",
+      "bg-raised": "#2D3035",
+      "text-primary": "#F5F6F7",
+      "text-secondary": "#C2C7D0",
+      "text-muted": "#A0A8B4",
+      "border-default": "#41464F",
+      "border-control": "#7D8592",
+      "brand-crm": "#5EDAE0",
+      "brand-oms": "#75A7FF",
+      "crm-bg": "#193437",
+      "crm-fg": "#5EDAE0",
+      "oms-bg": "#1E2E48",
+      "oms-fg": "#75A7FF",
+      "action-primary": "#1463D6",
+      "action-primary-hover": "#0F4FAE",
+      "action-on-primary": "#fff",
+      "link": "#75A7FF",
+      "focus-ring": "#75A7FF",
+      "status-success": "#78D9A2",
+      "status-warning": "#F2C46D",
+      "status-danger": "#FFA49B"
+    }
+  },
+  "typography": {
+    "font-sans": "Bai Jamjuree, Noto Sans Thai, Arial, ui-sans-serif, system-ui, sans-serif",
+    "weights": [400, 500, 600, 700],
+    "sizes": {
+      "display": "64px",
+      "hero": "48px",
+      "h1": "36px",
+      "h2": "28px",
+      "h3": "20px",
+      "body-lg": "18px",
+      "body": "16px",
+      "body-sm": "14px",
+      "label": "14px",
+      "caption": "12px"
+    }
+  },
+  "spacing": {
+    "2xs": "4px",
+    "xs": "8px",
+    "sm": "12px",
+    "md": "16px",
+    "lg": "24px",
+    "xl": "32px",
+    "2xl": "48px",
+    "section": "96px"
+  },
+  "radius": {
+    "control": "8px",
+    "button": "10px",
+    "card": "16px",
+    "panel": "24px",
+    "pill": "999px"
+  }
+}
