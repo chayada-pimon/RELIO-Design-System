@@ -4,7 +4,7 @@
 
 Document version: 2.0
 Status: Approved direction for website implementation
-Updated: 15 September 2026
+Updated: 23 September 2026
 Primary language: Thai
 Secondary language: English
 Brand line: Customers + Orders, Connected.
@@ -88,7 +88,11 @@ The official mark contains two connected speech bubbles and the RELIO wordmark.
 
 | Filename | Type | Size | Background | Use |
 |---|---|---:|---|---|
-| relio-logo.svg | SVG vector | 640 × 560 viewBox | Transparent | Master logo, website, print and scalable UI |
+| logo/Relio Logo - Horizontal - Full Color.svg | SVG vector | Scalable | Transparent | Website header wordmark (the file the header actually renders) |
+| logo/Relio Logo - Vertical - Full Color.svg | SVG vector | Scalable | Transparent | Stacked lockup for narrow or square placements |
+| logo/Relio Logomark - Full Color.svg | SVG vector | Scalable | Transparent | Mark-only placements |
+| logo/Relio Logo … - Black.svg / - White.svg | SVG vector | Scalable | Transparent | Black and white variants of each lockup above, for light or dark surfaces |
+| relio-logo.svg | SVG vector | 640 × 560 viewBox | Transparent | Browser favicon and legacy scalable master |
 | logo.png | PNG raster | Preview size | Transparent | Quick preview and documents that cannot use SVG |
 
 ### 2.3 Clear space and minimum size
@@ -294,16 +298,15 @@ Radius follows component size. It is not decoration.
 
 ### 6.1 Direction
 
-The mood is calm, capable and natural. Neutral space dominates. Brand colours appear as small physical or graphic cues.
+The mood is bright, playful and connected. Neutral space and generous whitespace still dominate; glossy 3D icon and mascot-adjacent graphics carry more of the visual interest than flat workspace photography.
 
 Preferred:
 
-- soft morning or late-afternoon natural light;
-- pale neutral desk or workspace;
-- a small plant, notebook, documents or tidy operational objects;
-- a small Aqua object and a small Blue object;
-- realistic materials and quiet composition;
-- generous negative space.
+- bright, airy compositions with generous negative space;
+- glossy 3D icons and rounded, mascot-adjacent shapes;
+- a small Aqua object and a small Blue object, linked by a connector line, card or shared motion;
+- realistic, tactile materials when photography is used;
+- clear contrast and subtle shadow, not deep drama.
 
 Avoid:
 
@@ -318,7 +321,7 @@ Avoid:
 
 | Filename | Type | Dimensions | Source | Use |
 |---|---|---:|---|---|
-| relio-mood-workspace.png | PNG | 1536 × 1024 px | Generated specifically for RELIO | Mood reference and marketing texture |
+| relio-mood-3d-icons.png | PNG | 1536 × 1024 px | Generated specifically for RELIO | Bright, playful 3D icon mood reference and marketing texture |
 
 If an external image is used, show creator, source URL, licence and retrieval date directly under the image.
 
@@ -442,7 +445,8 @@ Do not:
 
 | Filename | Type | Dimensions | Background | Use |
 |---|---|---:|---|---|
-| pair-original.png | PNG | 1536 × 1024 px | Transparent or source background removed for production | Main CRM + OMS pair |
+| pair-original.png | PNG | 1536 × 1024 px | Transparent or source background removed for production | Main CRM + OMS pair (Mascot Direction section) |
+| pair-blocks.png | PNG | 1536 × 1024 px | Transparent | Hero-specific crop of the CRM + OMS pair; the floating image on the Overview/hero section |
 | crm-character-sheet.png | PNG | 1536 × 1024 px | Reference sheet | CRM front, side, back and poses |
 | oms-character-sheet.png | PNG | 1536 × 1024 px | Reference sheet | OMS front, side, back and poses |
 
@@ -593,21 +597,24 @@ Use this order:
 1. Overview
 2. Brand Concept & Personality
 3. Logo Direction
-4. Colour Palette & Usage Ratio
-5. Typography, Fonts, Spacing & Shape
-6. Mood Imagery and Graphic Style
-7. Icons & Shapes
-8. Mascot Direction and Assets
-9. Brand Voice, Guidelines and Don't
-10. Light & Dark Foundations
-11. Component States and Product Usage
+4. Component States and Product Usage
+5. Applied UI Example
+6. Colour Palette & Usage Ratio
+7. Typography, Fonts, Spacing & Shape
+8. Mood Imagery and Graphic Style
+9. Icons & Shapes
+10. Mascot Direction and Assets
+11. Brand Voice, Guidelines and Don't
 12. Resources, Accessibility and Version
+
+Component States and Product Usage now sits right after Logo Direction rather than near the end. Applied UI Example follows it directly: a single composed customer + order screen (`#usage`) built only from the specimens above (badge, avatar, button, status strip), so the drawer/token sections that follow can stay focused on raw specification rather than product context. Light & Dark Foundations is no longer a standalone main-page section; its behaviour is still specified in 3.3, 3.4 and 11 and remains visible through the Details drawer's tokens tabs.
 
 ### 13.2 Hero
 
 - Left: eyebrow, RELIO, Design System, one-sentence description and two actions.
-- Right: transparent CRM + OMS image floating directly on the page.
-- No image card, grid, framed panel or caption strip.
+- Right: transparent CRM + OMS image (pair-blocks.png) floats above a supporting backdrop.
+- The backdrop is a quiet grid of small neutral UI-preview cards (customer, order, notification, palette and stat moments) plus a soft Aqua/Blue radial glow and a faint dot-grid texture, confined to the hero viewport.
+- The mascot image itself still has no card, grid, framed panel or caption strip directly on it; the card grid is ambient backdrop, not a frame around the mascot.
 - Keep the page foundation neutral.
 
 ### 13.3 Details drawer
@@ -685,10 +692,10 @@ Every asset card must show:
 Use lowercase kebab-case:
 
 - relio-logo.svg
-- relio-mascot-duo.png
-- relio-crm-character-sheet.png
-- relio-oms-character-sheet.png
-- relio-mood-workspace.png
+- pair-original.png
+- crm-character-sheet.png
+- oms-character-sheet.png
+- relio-mood-3d-icons.png
 - relio-tokens.css
 - relio-tokens.json
 
@@ -746,29 +753,110 @@ Rules:
 - Motion explains state change.
 - Mascot may float gently in the hero, maximum 4 px vertical travel.
 - Disable floating under reduced motion.
-- Do not animate every section on scroll.
+- Sections and their cards may use a single subtle fade-and-rise reveal the first time they scroll into view; do not use looping or repeating scroll animation, and respect reduced-motion preference.
 - Do not use springy button motion.
 
 ---
 
 ## 18. Implementation token starter
 
-### 18.1 CSS variables
+This section is the single copy-paste source for production tokens. It mirrors, byte for byte, the standalone files `relio-tokens.css`, `relio-tailwind.css` and `relio-tokens.json` — updating one must update the other three.
+
+### 18.1 CSS variables — relio-tokens.css
 
     :root {
-      --brand-crm: #28C6CD;
-      --brand-crm-deep: #087F8C;
-      --brand-oms: #1463D6;
-      --accent-warm: #FC9433;
       --bg-canvas: #F7F8FA;
       --bg-surface: #FFFFFF;
       --bg-raised: #F0F2F5;
       --text-primary: #202124;
       --text-secondary: #525866;
-      --text-quiet: #7D8592;
+      --text-quiet: #667080;
+      --text-disabled: #AEB5C0;
       --border-default: #D8DDE5;
-      --font-sans: Bai Jamjuree, Noto Sans Thai, Arial, ui-sans-serif, system-ui, sans-serif;
+      --border-control: #747D8A;
+      --brand-crm-graphic: #28C6CD;
+      --brand-crm-text: #087F8C;
+      --brand-oms-text: #1463D6;
+      --action-primary-bg: #1463D6;
+      --action-primary-text: #FFFFFF;
+      --action-primary-hover: #1158BE;
+      --action-primary-active: #0D4DAA;
+      --focus-ring: #1463D6;
+      --accent-warm-ui: #FC9433;
+      --crm-badge-bg: #DDF7F8;
+      --crm-badge-text: #076F7A;
+      --oms-badge-bg: #E1ECFF;
+      --oms-badge-text: #1463D6;
+      --success-bg: #DDF5E8;
+      --success-text: #18734A;
+      --warning-bg: #FFF0D0;
+      --warning-text: #8A4B08;
+      --danger-bg: #FFE4E1;
+      --danger-text: #B42318;
+      --info-bg: #E1ECFF;
+      --info-text: #1463D6;
+      --bg-hover: #E7EAF0;
+      --bg-disabled: #ECEFF3;
+      --bg-input: #FFFFFF;
+      --bg-tooltip: #202124;
+      --text-tooltip: #FFFFFF;
+      --overlay-backdrop: #202124;
+      --text-link: #1463D6;
+      --text-link-hover: #0D4DAA;
+      --text-placeholder: #667080;
+      --icon-primary: #202124;
+      --icon-secondary: #525866;
+      --icon-interactive: #1463D6;
+      --icon-disabled: #AEB5C0;
+      --action-secondary-bg: #FFFFFF;
+      --action-secondary-text: #202124;
+      --action-secondary-border: #747D8A;
+      --action-tertiary-hover: #E7EAF0;
+      --action-danger-bg: #B42318;
+      --action-danger-text: #FFFFFF;
+      --action-danger-hover: #8F1B13;
+      --action-danger-active: #76170F;
+      --action-disabled-bg: #ECEFF3;
+      --action-disabled-text: #AEB5C0;
+      --nav-active-bg: #F0F2F5;
+      --nav-active-indicator: #1463D6;
+      --input-error-border: #B42318;
+      --input-valid-border: #18734A;
+      --check-selected-bg: #1463D6;
+      --check-selected-icon: #FFFFFF;
+      --switch-off-track: #747D8A;
+      --switch-thumb: #FFFFFF;
+      --table-stripe: #F0F2F5;
+      --table-selection-bg: #E1ECFF;
+      --skeleton-base: #E7EAF0;
+      --skeleton-highlight: #F0F2F5;
+      --chart-crm: #087F8C;
+      --chart-oms: #1463D6;
+      --chart-other: #667080;
+      --chart-grid: #D8DDE5;
+      --asset-logo-aqua: #087F8C;
+      --asset-logo-blue: #1463D6;
+      --asset-logo-ink: #082451;
+      --asset-mascot-crm: #28C6CD;
+      --asset-mascot-oms: #1463D6;
+      --asset-mascot-eye: #011F5D;
+      --asset-mascot-face: #FBF1E5;
+      --asset-mascot-tab: #FC9433;
+      --font-sans: "Bai Jamjuree", "Noto Sans Thai", Arial, ui-sans-serif, system-ui, sans-serif;
       --space-unit: 4px;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+      --space-24: 96px;
+      --radius-xs: 4px;
       --radius-sm: 8px;
       --radius-md: 10px;
       --radius-lg: 16px;
@@ -783,12 +871,178 @@ Rules:
       --text-primary: #F5F6F7;
       --text-secondary: #C2C7D0;
       --text-quiet: #A0A8B4;
+      --text-disabled: #686F79;
       --border-default: #41464F;
-      --brand-crm: #5EDAE0;
-      --brand-oms: #75A7FF;
+      --border-control: #858E9C;
+      --brand-crm-graphic: #5EDAE0;
+      --brand-crm-text: #5EDAE0;
+      --brand-oms-text: #75A7FF;
+      --focus-ring: #75A7FF;
+      --crm-badge-bg: #12383C;
+      --crm-badge-text: #5EDAE0;
+      --oms-badge-bg: #162D50;
+      --oms-badge-text: #75A7FF;
+      --success-bg: #173526;
+      --success-text: #75D9A2;
+      --warning-bg: #3D2D16;
+      --warning-text: #FFD18A;
+      --danger-bg: #421F1E;
+      --danger-text: #FF9A91;
+      --info-bg: #182E50;
+      --info-text: #A2C4FF;
+      --bg-hover: #34383E;
+      --bg-disabled: #303238;
+      --bg-input: #222427;
+      --bg-tooltip: #F5F6F7;
+      --text-tooltip: #202124;
+      --overlay-backdrop: #090A0C;
+      --text-link: #75A7FF;
+      --text-link-hover: #A2C4FF;
+      --text-placeholder: #A0A8B4;
+      --icon-primary: #F5F6F7;
+      --icon-secondary: #C2C7D0;
+      --icon-interactive: #75A7FF;
+      --icon-disabled: #686F79;
+      --action-secondary-bg: #222427;
+      --action-secondary-text: #F5F6F7;
+      --action-secondary-border: #858E9C;
+      --action-tertiary-hover: #34383E;
+      --action-disabled-bg: #303238;
+      --action-disabled-text: #686F79;
+      --nav-active-bg: #2D3035;
+      --nav-active-indicator: #75A7FF;
+      --input-error-border: #FF9A91;
+      --input-valid-border: #75D9A2;
+      --switch-off-track: #858E9C;
+      --table-stripe: #2D3035;
+      --table-selection-bg: #162D50;
+      --skeleton-base: #34383E;
+      --skeleton-highlight: #41464F;
+      --chart-crm: #5EDAE0;
+      --chart-oms: #75A7FF;
+      --chart-other: #C2C7D0;
+      --chart-grid: #41464F;
     }
 
-### 18.2 Font loading
+### 18.2 Tailwind v4 theme — relio-tailwind.css
+
+    /* Tailwind v4. Import after Tailwind and relio-tokens.css. */
+    @theme inline {
+      --color-canvas: var(--bg-canvas);
+      --color-surface: var(--bg-surface);
+      --color-raised: var(--bg-raised);
+      --color-content: var(--text-primary);
+      --color-content-secondary: var(--text-secondary);
+      --color-content-muted: var(--text-muted);
+      --color-line: var(--border-default);
+      --color-control: var(--border-control);
+      --color-crm: var(--crm-fg);
+      --color-crm-soft: var(--crm-bg);
+      --color-oms: var(--oms-fg);
+      --color-oms-soft: var(--oms-bg);
+      --color-action: var(--action-primary);
+      --color-on-action: var(--action-on-primary);
+      --font-sans: 'Bai Jamjuree', 'Noto Sans Thai', Arial, ui-sans-serif, system-ui, sans-serif;
+      --radius-control: var(--radius-sm);
+      --radius-button: var(--radius-md);
+      --radius-card: var(--radius-lg);
+      --radius-panel: var(--radius-xl);
+    }
+
+### 18.3 Design tokens (tool-neutral) — relio-tokens.json
+
+    {
+      "name": "RELIO",
+      "revision": 2,
+      "schema": "RELIO semantic colors v1 (custom schema)",
+      "themes": {
+        "light": {
+          "bg-canvas": "#F7F8FA",
+          "bg-surface": "#fff",
+          "bg-raised": "#F0F2F5",
+          "text-primary": "#202124",
+          "text-secondary": "#525866",
+          "text-muted": "#7D8592",
+          "border-default": "#D8DDE5",
+          "border-control": "#7D8592",
+          "brand-crm": "#28C6CD",
+          "brand-oms": "#1463D6",
+          "crm-bg": "#E9FAFB",
+          "crm-fg": "#086B73",
+          "oms-bg": "#EDF4FF",
+          "oms-fg": "#1463D6",
+          "action-primary": "#1463D6",
+          "action-primary-hover": "#0F4FAE",
+          "action-on-primary": "#fff",
+          "link": "#1463D6",
+          "focus-ring": "#1463D6",
+          "status-success": "#18734A",
+          "status-warning": "#8A4B08",
+          "status-danger": "#B42318"
+        },
+        "dark": {
+          "bg-canvas": "#18191B",
+          "bg-surface": "#222427",
+          "bg-raised": "#2D3035",
+          "text-primary": "#F5F6F7",
+          "text-secondary": "#C2C7D0",
+          "text-muted": "#A0A8B4",
+          "border-default": "#41464F",
+          "border-control": "#7D8592",
+          "brand-crm": "#5EDAE0",
+          "brand-oms": "#75A7FF",
+          "crm-bg": "#193437",
+          "crm-fg": "#5EDAE0",
+          "oms-bg": "#1E2E48",
+          "oms-fg": "#75A7FF",
+          "action-primary": "#1463D6",
+          "action-primary-hover": "#0F4FAE",
+          "action-on-primary": "#fff",
+          "link": "#75A7FF",
+          "focus-ring": "#75A7FF",
+          "status-success": "#78D9A2",
+          "status-warning": "#F2C46D",
+          "status-danger": "#FFA49B"
+        }
+      },
+      "typography": {
+        "font-sans": "Bai Jamjuree, Noto Sans Thai, Arial, ui-sans-serif, system-ui, sans-serif",
+        "weights": [400, 500, 600, 700],
+        "sizes": {
+          "display": "64px",
+          "hero": "48px",
+          "h1": "36px",
+          "h2": "28px",
+          "h3": "20px",
+          "body-lg": "18px",
+          "body": "16px",
+          "body-sm": "14px",
+          "label": "14px",
+          "caption": "12px"
+        }
+      },
+      "spacing": {
+        "2xs": "4px",
+        "xs": "8px",
+        "sm": "12px",
+        "md": "16px",
+        "lg": "24px",
+        "xl": "32px",
+        "2xl": "48px",
+        "section": "96px"
+      },
+      "radius": {
+        "control": "8px",
+        "button": "10px",
+        "card": "16px",
+        "panel": "24px",
+        "pill": "999px"
+      }
+    }
+
+Note: `relio-tailwind.css` and `relio-tokens.json` currently reference token names (`--text-muted`, `--crm-fg`, `--crm-bg`) that do not exist under those exact names in 18.1's CSS variables (which uses `--text-quiet`, `--brand-crm-text`, `--crm-badge-bg` instead). This mismatch is pre-existing in the source files and reproduced here as-is; reconcile the naming before wiring Tailwind's `@theme inline` block to the CSS variables in production.
+
+### 18.4 Font loading
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -822,6 +1076,30 @@ Before publishing:
 ---
 
 ## 20. Change log
+
+### Applied UI example — 23 September 2026
+
+- Added a new main-page section, Applied UI Example (`#usage`, 13.1 item 5), directly after Component States and Product Usage.
+- The section composes a realistic customer + order screen (`sections/usage.js`) out of existing specimens only — badge, avatar, button and status strip — with no new component introduced, split into a CRM-aqua customer pane and an OMS-blue order pane.
+- Restored the `.component-demo` two-pane frame in `style.css`, whose base rule had been dropped in the section-file split (only its mobile override survived); `customer-pane`, `order-pane`, `avatar`, `customer-details`, `customer-note`, `order-progress`, `order-status` and `order-actions` were already defined and unused.
+
+### Token consolidation — 23 September 2026
+
+- Merged `relio-tokens.css`, `relio-tailwind.css` and `relio-tokens.json` into section 18 as the single copy-paste source of truth, so this one .md file is enough to load and use the full token set without downloading the separate files.
+- Flagged the pre-existing token-name mismatch between the CSS variables and the Tailwind/JSON files (18.2/18.3 note) rather than silently resolving it.
+- Simplified the website's Resources section to one guideline download that now includes the full tokens, instead of four separate file downloads.
+
+### Content sync — 23 September 2026
+
+Documentation-only sync against the implemented site (app.js split into sections/*.js, no design decisions changed):
+
+- Updated logo file references in 2.2 to the header's actual Logomark/Horizontal/Vertical (Full Color/Black/White) SVG set; relio-logo.svg is now noted as favicon/legacy only.
+- Updated the mood direction and reference filename (6.1–6.2) to the current bright, playful 3D-icon mood image, relio-mood-3d-icons.png.
+- Documented pair-blocks.png as the dedicated hero-floating mascot crop, distinct from the pair-original.png duo asset used in the Mascot Direction section (9.5).
+- Reordered the main-page section list (13.1): Component States now follows Logo Direction; the standalone Light & Dark Foundations page section was removed since the site no longer renders it (its behaviour spec in 3.3/3.4/11 still applies).
+- Described the hero's actual backdrop — a grid of small UI-preview cards plus a soft Aqua/Blue glow — in 13.2, while keeping the "no card on the mascot itself" rule.
+- Clarified the scroll-reveal motion rule in section 17 to match the current one-time fade/rise behaviour instead of a blanket no-scroll-animation rule.
+- Corrected stale filename examples in 14.3.
 
 ### Version 2.0 — 15 September 2026
 

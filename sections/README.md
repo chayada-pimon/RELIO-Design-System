@@ -1,5 +1,5 @@
 # sections/
 
-Brand/design-system content sections (as opposed to reusable UI components) — the kind currently built inline in `app.js`: concept, logo, colors, type, mood, icons, mascot, voice, foundations, resources.
+Brand/design-system content sections (as opposed to reusable UI components): overview, concept, logo, colors, type, mood, icons, mascot, voice, components (states demo), resources.
 
-When ready to split `app.js`, each section (e.g. `colors.js`, `type.js`) can move here and get imported/concatenated into the page instead of living as one long string.
+Each section exports a single `render*()` function returning its HTML string (e.g. `renderColors()` in `colors.js`). `app.js` imports and concatenates them in `main()`. Shared helpers (`icon`, `sectionHead`, `download`, `downloadFile`) live in `shared.js`; shared app state lives in `../state.js`.
