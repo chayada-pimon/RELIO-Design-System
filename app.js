@@ -1,6 +1,7 @@
 import { state } from "./state.js";
-import { icon } from "./sections/shared.js";
-import { renderOverview } from "./sections/overview.js";
+import { icon, ccLogo } from "./sections/shared.js";
+import { cssVariables, tailwindTheme, tokensJson } from "./sections/tokens-v3.js";
+import { renderOverview, animateOverview } from "./sections/overview.js";
 import { renderConcept } from "./sections/concept.js";
 import { renderLogo } from "./sections/logo.js";
 import { renderColors } from "./sections/colors.js";
@@ -20,6 +21,7 @@ import { renderResources } from "./sections/resources.js";
   var $$ = function (q, root) { return Array.from((root || document).querySelectorAll(q)); };
   var lastDrawerTrigger = null;
   var revealedSections = new Set();
+  var GUIDE_FILE = "CRM-CENTER-DESIGN.md";
 
   var copyText = function (value) {
     navigator.clipboard.writeText(value).then(function () { toast(state.lang === "th" ? "คัดลอกแล้ว" : "Copied"); });
@@ -32,67 +34,80 @@ import { renderResources } from "./sections/resources.js";
     window.relioToast = setTimeout(function () { node.classList.remove("show"); }, 1600);
   };
 
-   var nav = [
-      ["overview", "ภาพรวม", "Overview", "squares-four"], ["concept", "แนวคิดแบรนด์", "Brand concept", "compass"],
+  // Sidebar sections, in page order: [heading TH, heading EN, rows[id, TH, EN, phosphor icon, crm context]].
+  var nav = [
+    ["ภาพรวม", "Overview", [
+      ["overview", "หน้าแรก", "Home", "squares-four"],
+      ["concept", "ในไกด์นี้", "In this guide", "compass"]
+    ]],
+    ["พื้นฐาน", "Foundations", [
+      ["colors", "สี", "Colour", "palette"],
+      ["type", "ตัวอักษรและรูปทรง", "Type & shape", "text-t"],
+      ["icons", "ไอคอน", "Icons", "shapes"]
+    ]],
+    ["คอมโพเนนต์", "Components", [
+      ["components", "คอมโพเนนต์", "Components", "sliders-horizontal"],
+      ["usage", "ตัวอย่างหน้าจอจริง", "Applied example", "layout"]
+    ]],
+    ["แบรนด์", "Brand", [
       ["logo", "โลโก้", "Logo", "seal-check"],
-     ["components", "ตัวอย่างระบบ", "System examples", "sliders-horizontal"],
-     ["usage", "ตัวอย่างการใช้งานจริง", "Applied example", "layout"],
-     ["colors", "สี", "Colours", "palette"],
-     ["type", "ตัวอักษรและรูปทรง", "Type & shape", "text-t"], ["mood", "ภาพและกราฟิก", "Imagery", "image"],
-     ["icons", "ไอคอน", "Icons", "shapes"], ["mascot", "มาสคอต", "Mascot", "smiley"],
-     ["voice", "น้ำเสียง", "Voice", "chat-circle"],
-     ["resources", "ไฟล์และเวอร์ชัน", "Resources", "folder"]
-   ];
+      ["mood", "ภาพและกราฟิก", "Imagery", "image", true],
+      ["mascot", "มาสคอต", "Mascot", "smiley", true],
+      ["voice", "น้ำเสียง", "Voice", "chat-circle"]
+    ]],
+    ["ไฟล์", "Files", [
+      ["resources", "ไฟล์และเวอร์ชัน", "Resources", "folder"]
+    ]]
+  ];
 
   function header() {
+    var th = state.lang === "th";
     $("#header").innerHTML =
-      "<a class='brand' href='#overview' aria-label='RELIO home'><img src='" + encodeURI("assets/logo/Relio Logo - Horizontal - Full Color.svg") + "' alt='RELIO'></a>" +
+      "<button class='icon-btn menu-btn' id='menu' aria-label='" + (th ? "เปิดเมนู" : "Open menu") + "' aria-expanded='false' aria-controls='sidebar'>" + icon("menu") + "</button>" +
       "<div class='header-actions'><div class='seg' aria-label='Language'><button data-lang='th'>ไทย</button><button data-lang='en'>EN</button></div>" +
-      "<button class='icon-btn' id='theme' aria-label='Toggle theme'>" + icon(state.theme === "dark" ? "sun" : "moon") + "</button>" +
-      "<a class='btn primary small' id='details' href='RELIO-DESIGN.md' download>" + icon("download", 17) + "<span>" + (state.lang === "th" ? "ดาวน์โหลด .md" : "Download .md") + "</span></a>" +
-      "<button class='icon-btn mobile-only' id='menu' aria-label='Menu'>" + icon("menu") + "</button></div>";
+      "<button class='icon-btn' id='theme' aria-label='" + (state.theme === "dark" ? (th ? "เปลี่ยนเป็นธีมสว่าง" : "Switch to light theme") : (th ? "เปลี่ยนเป็นธีมมืด" : "Switch to dark theme")) + "'>" + icon(state.theme === "dark" ? "sun" : "moon") + "</button>" +
+      "<a class='btn primary' id='details' href='" + GUIDE_FILE + "' download>" + icon("download", 20) + "<span>" + (th ? "ดาวน์โหลด .md" : "Download .md") + "</span></a></div>";
   }
   function sidebar() {
-    $("#sidebar").innerHTML = "<div class='nav-label'>" + (state.lang === "th" ? "สารบัญ" : "Contents") + "</div><nav>" +
-       nav.map(function (n, i) { return "<a href='#" + n[0] + "' class='" + (i === 0 ? "active" : "") + "'><span aria-hidden='true'><i class='ph ph-" + n[3] + "'></i></span><span class='nav-item-label'>" + (state.lang === "th" ? n[1] : n[2]) + "</span></a>"; }).join("") +
-      "</nav>";
+    var th = state.lang === "th";
+    $("#sidebar").innerHTML =
+      "<div class='sidebar-logo'><a href='#overview' aria-label='CRM Center'>" + ccLogo(true) + "</a><button class='icon-btn on-blue menu-close' data-close-menu aria-label='" + (th ? "ปิดเมนู" : "Close menu") + "'>" + icon("close", 18) + "</button></div>" +
+      "<nav>" + nav.map(function (sec) {
+        return "<div class='nav-sec'><span class='nav-label'>" + (th ? sec[0] : sec[1]) + "</span>" +
+          sec[2].map(function (n) {
+            return "<a href='#" + n[0] + "' class='" + (n[0] === "overview" ? "active" : "") + (n[4] ? " is-crm" : "") + "'><i class='" + (n[0] === "overview" ? "ph-bold" : "ph") + " ph-" + n[3] + "' aria-hidden='true'></i><span class='nav-item-label'>" + (th ? n[1] : n[2]) + "</span></a>";
+          }).join("") + "</div>";
+      }).join("") + "</nav>" +
+      "<div class='sidebar-foot'><span class='status-dot'></span>" + (th ? "ซิงก์กับ CRM Center · 28 ก.ย. 2569" : "Synced with CRM Center · 28 Sep 2026") + "</div>";
   }
 
   function main() {
     $("#content").innerHTML =
-       renderOverview() +
-       renderConcept() +
-       renderLogo() +
-       renderComponents() +
-      renderUsage() +
+      renderOverview() +
+      renderConcept() +
       renderColors() +
       renderType() +
-      renderMood() +
       renderIcons() +
+      renderComponents() +
+      renderUsage() +
+      renderLogo() +
+      renderMood() +
       renderMascot() +
       renderVoice() +
       renderResources();
+    animateOverview();
   }
 
   function mdText() {
-    return "# RELIO — Design System\n\n> Customers + orders, connected.\n\n## Principles\n- Clear Connections\n- Friendly Guidance\n- Confident Actions\n\n## Brand colours\n- CRM Aqua: #28C6CD\n- OMS Blue: #1463D6\n- Action Orange: #FC9433\n\n## Typography\nBai Jamjuree 400 / 500 / 600\n\n## Spacing\n4px base unit; section gap 96px; card padding 24px.\n\n## Radius\nInput 8px; Button 10px; Card 16px; Panel 24px.\n\n## Accessibility\nDo not rely on colour alone. Keep focus visible and targets at least 44px.";
-  }
-  function cssText() {
-    return ":root {\n  --brand-crm: #28C6CD;\n  --brand-oms: #1463D6;\n  --accent-warm: #FC9433;\n  --bg: #F7F8FA;\n  --surface: #FFFFFF;\n  --text: #202124;\n  --muted: #525866;\n  --line: #D8DDE5;\n  --space-1: 4px;\n  --space-2: 8px;\n  --space-4: 16px;\n  --space-6: 24px;\n  --radius-sm: 8px;\n  --radius-md: 10px;\n  --radius-lg: 16px;\n}\n\n[data-theme='dark'] {\n  --bg: #18191B;\n  --surface: #222427;\n  --text: #F5F6F7;\n  --muted: #C2C7D0;\n  --line: #41464F;\n}";
-  }
-  function tailwindText() {
-    return "@theme {\n  --color-crm: #28C6CD;\n  --color-crm-deep: #087F8C;\n  --color-oms: #1463D6;\n  --color-action-warm: #FC9433;\n  --font-sans: 'Bai Jamjuree', 'Noto Sans Thai', Arial, sans-serif;\n  --radius-control: 8px;\n  --radius-button: 10px;\n  --radius-card: 16px;\n  --radius-panel: 24px;\n}";
-  }
-  function tokenText() {
-    return JSON.stringify({ color: { brand: { crm: { value: "#28C6CD" }, oms: { value: "#1463D6" } }, action: { value: "#FC9433" } }, spacing: { xs: { value: "8px" }, md: { value: "16px" }, lg: { value: "24px" } }, radius: { card: { value: "16px" }, panel: { value: "24px" } } }, null, 2);
+    return "# CRM Center — RELIO Design System v3\n\n> ระบบเดียว คุมได้ทั้งร้าน (CRM + OMS)\n\n## Frame\nBlue radial sidebar backdrop (#2f6ee0 → #1d59cc → #1546ad) with a 56px white grid; content floats on #f7f8fa.\n\n## Typography\nNoto Sans Thai 400 / 500 / 600. Bai Jamjuree for the RELIO brand only.\n\n## Radius\nInput 8px; Button 10px; Card 16px; Modal 24px; Pill 999px.\n\n## Accessibility\nStatus is never colour alone. Focus 2px ring, 2px offset. Targets 44px.";
   }
   function drawer() {
     var tabs = [["md", "DESIGN.md"], ["tailwind", "Tailwind v4"], ["css", "CSS Variables"], ["tokens", "Design Tokens"]];
-    var value = state.tab === "md" ? mdText() : state.tab === "tailwind" ? tailwindText() : state.tab === "css" ? cssText() : tokenText();
-    $("#drawerRoot").innerHTML = "<div class='drawer-scrim " + (state.drawer ? "open" : "") + "' data-close-drawer></div><aside class='drawer " + (state.drawer ? "open" : "") + "' aria-hidden='" + (!state.drawer) + "' aria-label='" + (state.lang === "th" ? "คู่มือแบบละเอียด" : "Detailed guide") + "'><div class='drawer-top'><div><span class='eyebrow'>RELIO / STYLE</span><h2>" + (state.lang === "th" ? "คู่มือแบบละเอียด" : "Detailed guide") + "</h2></div><button class='icon-btn drawer-close' data-close-drawer aria-label='Close'>" + icon("close") + "</button></div><div class='drawer-tabs' role='tablist'>" + tabs.map(function (x) { return "<button role='tab' aria-selected='" + (state.tab === x[0]) + "' class='" + (state.tab === x[0] ? "active" : "") + "' data-drawer-tab='" + x[0] + "'>" + x[1] + "</button>"; }).join("") + "</div><div class='drawer-tools'><div class='seg'><button data-density='compact' class='" + (!state.extended ? "active" : "") + "'>Compact</button><button data-density='extended' class='" + (state.extended ? "active" : "") + "'>Extended</button></div><div><button class='btn secondary small' data-copy-drawer>" + icon("copy", 16) + "Copy</button><button class='btn secondary small' data-download-drawer>" + icon("download", 16) + "." + (state.tab === "tokens" ? "json" : state.tab === "tailwind" ? "css" : state.tab) + "</button></div></div><pre class='" + (state.extended ? "extended" : "") + "'><code></code></pre></aside>";
+    var value = state.tab === "md" ? mdText() : state.tab === "tailwind" ? tailwindTheme() : state.tab === "css" ? cssVariables() : tokensJson();
+    $("#drawerRoot").innerHTML = "<div class='drawer-scrim " + (state.drawer ? "open" : "") + "' data-close-drawer></div><aside class='drawer " + (state.drawer ? "open" : "") + "' aria-hidden='" + (!state.drawer) + "' aria-label='" + (state.lang === "th" ? "คู่มือแบบละเอียด" : "Detailed guide") + "'><div class='drawer-top'><div><span class='eyebrow'>CRM CENTER / V3</span><h2>" + (state.lang === "th" ? "คู่มือแบบละเอียด" : "Detailed guide") + "</h2></div><button class='icon-btn drawer-close' data-close-drawer aria-label='" + (state.lang === "th" ? "ปิด" : "Close") + "'>" + icon("close") + "</button></div><div class='drawer-tabs' role='tablist'>" + tabs.map(function (x) { return "<button role='tab' aria-selected='" + (state.tab === x[0]) + "' class='" + (state.tab === x[0] ? "active" : "") + "' data-drawer-tab='" + x[0] + "'>" + x[1] + "</button>"; }).join("") + "</div><div class='drawer-tools'><div class='seg'><button data-density='compact' class='" + (!state.extended ? "active" : "") + "'>Compact</button><button data-density='extended' class='" + (state.extended ? "active" : "") + "'>Extended</button></div><div><button class='btn secondary small' data-copy-drawer>" + icon("copy", 16) + "Copy</button><button class='btn secondary small' data-download-drawer>" + icon("download", 16) + "." + (state.tab === "tokens" ? "json" : state.tab === "tailwind" ? "css" : state.tab) + "</button></div></div><pre class='" + (state.extended ? "extended" : "") + "'><code></code></pre></aside>";
     $(".drawer code").textContent = value;
     if (state.tab === "md") {
-      fetch("RELIO-DESIGN.md").then(function (response) { return response.text(); }).then(function (fullText) {
+      fetch(GUIDE_FILE).then(function (response) { return response.text(); }).then(function (fullText) {
         if (state.tab === "md" && $(".drawer code")) $(".drawer code").textContent = fullText;
       }).catch(function () {});
     }
@@ -123,20 +138,25 @@ import { renderResources } from "./sections/resources.js";
       };
     });
   }
+  function setMenu(open) {
+    $("#sidebar").classList.toggle("open", open);
+    $(".menu-scrim").classList.toggle("open", open);
+    $("#menu").setAttribute("aria-expanded", String(open));
+  }
   function bind() {
     $$("[data-lang]").forEach(function (b) { b.classList.toggle("active", b.dataset.lang === state.lang); b.onclick = function () { state.lang = b.dataset.lang; state.typeLang = b.dataset.lang; localStorage.setItem("relio-lang", state.lang); localStorage.setItem("relio-type-lang", state.typeLang); render(); }; });
     $$("[data-type-lang]").forEach(function (b) { b.onclick = function () { state.typeLang = b.dataset.typeLang; localStorage.setItem("relio-type-lang", state.typeLang); main(); bind(); observe(); }; });
-    $$("[data-type-demo]").forEach(function (b) { b.onclick = function () { state.typeDemo = b.dataset.typeDemo; main(); bind(); observe(); }; });
     $("#theme").onclick = function () { state.theme = state.theme === "light" ? "dark" : "light"; localStorage.setItem("relio-theme", state.theme); render(); };
     $$("[data-open-drawer]").forEach(function (b) { b.onclick = openDrawer; });
-    $("#menu").onclick = function () { $("#sidebar").classList.toggle("open"); };
+    $("#menu").onclick = function () { setMenu(!$("#sidebar").classList.contains("open")); };
+    $$("[data-close-menu]").forEach(function (b) { b.onclick = function () { setMenu(false); }; });
     $$("[data-copy],[data-icon]").forEach(function (b) { b.onclick = function () { copyText(b.dataset.copy || b.dataset.icon); b.classList.remove("copied"); void b.offsetWidth; b.classList.add("copied"); }; });
     $$("[data-logo-variant]").forEach(function (b) { b.onclick = function () { state.logoVariant = Number(b.dataset.logoVariant); main(); bind(); observe(); }; });
     $$("[id^='specimen-states-']").forEach(function (list) {
       var specimenId = list.id.slice("specimen-states-".length);
       bindTablist(list.id, function (value) { state.demoBySpecimen[specimenId] = value; }, "state");
     });
-    $$("#sidebar a").forEach(function (a) { a.onclick = function () { $("#sidebar").classList.remove("open"); }; });
+    $$("#sidebar nav a").forEach(function (a) { a.onclick = function () { setMenu(false); }; });
     bindDrawer();
   }
   function openDrawer() { lastDrawerTrigger = document.activeElement; state.drawer = true; drawer(); bindDrawer(); document.body.classList.add("drawer-open"); setTimeout(function () { var close = $(".drawer-close"); if (close) close.focus(); }, 0); }
@@ -149,24 +169,38 @@ import { renderResources } from "./sections/resources.js";
     var dl = $("[data-download-drawer]"); if (dl) dl.onclick = function () {
       var ext = state.tab === "tokens" ? "json" : state.tab === "tailwind" ? "css" : state.tab;
       var blob = new Blob([$(".drawer code").textContent], { type: "text/plain" });
-      var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "relio-" + state.tab + "." + ext; a.click(); URL.revokeObjectURL(a.href);
+      var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "crm-center-" + state.tab + "." + ext; a.click(); URL.revokeObjectURL(a.href);
     };
   }
+  var heroObserver;
   function observe() {
-    var obs = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { $$("#sidebar a").forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id); }); } }); }, { rootMargin: "-20% 0px -70%" });
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        $$("#sidebar nav a").forEach(function (a) {
+          var on = a.getAttribute("href") === "#" + e.target.id;
+          a.classList.toggle("active", on);
+          var i = a.querySelector("i");
+          if (i) { i.classList.toggle("ph", !on); i.classList.toggle("ph-bold", on); }
+          if (on) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
+        });
+      });
+    }, { rootMargin: "-20% 0px -70%" });
     $$("main > section").forEach(function (s) { obs.observe(s); });
-    var hero = $("#overview");
-    var heroObserver = new IntersectionObserver(function (entries) {
+
+    // Sidebar stays collapsed while the hero holds the top of the viewport; expands once the next section scrolls up.
+    if (heroObserver) heroObserver.disconnect();
+    heroObserver = new IntersectionObserver(function (entries) {
       document.body.classList.toggle("hero-active", entries[0].isIntersecting);
-    }, { threshold: 0.1 });
-    heroObserver.observe(hero);
+    }, { rootMargin: "0px 0px -80% 0px" });
+    heroObserver.observe($("#overview"));
 
     var revealSections = $$("main > section.section:not(.hero)");
     var revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add("in-view"); revealedSections.add(e.target.id); revealObserver.unobserve(e.target); }
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    }, { threshold: 0.08, rootMargin: "0px 0px -8% 0px" });
     revealSections.forEach(function (s) {
       $$("[class*='-card']", s).forEach(function (el, i) { el.style.setProperty("--reveal-i", Math.min(i, 6)); });
       if (revealedSections.has(s.id)) { s.classList.add("in-view"); } else { revealObserver.observe(s); }
@@ -177,6 +211,10 @@ import { renderResources } from "./sections/resources.js";
     document.documentElement.dataset.theme = state.theme;
     header(); sidebar(); main(); drawer(); bind(); observe();
   }
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && state.drawer) closeDrawer(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    if (state.drawer) closeDrawer();
+    else if ($("#sidebar").classList.contains("open")) { setMenu(false); $("#menu").focus(); }
+  });
   render();
 })();

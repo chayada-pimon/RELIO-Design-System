@@ -1,17 +1,17 @@
 import { state } from "../state.js";
 
-export function icon(name, size) {
+// Phosphor icon. `weight` is "regular" (default), "bold" or "fill"; unknown names pass straight through.
+export function icon(name, size, weight) {
   var names = {
     menu: "list", close: "x", sun: "sun", moon: "moon", book: "book-open",
     download: "download-simple", copy: "copy", arrow: "arrow-right", check: "check",
-    warning: "warning", spark: "sparkle", link: "link", heart: "heart", user: "user",
-    folder: "folder", chat: "chat-circle", "chat-circle": "chat-circle", search: "magnifying-glass", compass: "compass",
-    lightning: "lightning", smiley: "smiley", "seal-check": "seal-check", palette: "palette", "text-t": "text-t",
-    "sliders-horizontal": "sliders-horizontal", shapes: "shapes",
-    code: "code", "brackets-curly": "brackets-curly", "file-text": "file-text",
-    home: "house", users: "users", bell: "bell", layout: "layout", receipt: "receipt"
+    warning: "warning-circle", spark: "sparkle", link: "link", heart: "heart", user: "user",
+    folder: "folder", chat: "chat-circle", search: "magnifying-glass", home: "house",
+    users: "users-three", dashboard: "squares-four", gear: "gear-six", caret: "caret-down",
+    success: "check-circle", error: "x-circle", info: "info"
   };
-  return "<i class='ph ph-" + (names[name] || names.spark) + " i' style='font-size:" + (size || 20) + "px' aria-hidden='true'></i>";
+  var cls = weight === "bold" ? "ph-bold" : weight === "fill" ? "ph-fill" : "ph";
+  return "<i class='" + cls + " ph-" + (names[name] || name) + " i' style='font-size:" + (size || 20) + "px' aria-hidden='true'></i>";
 }
 
 export function sectionHead(id, no, th, en, textTh, textEn) {
@@ -21,4 +21,9 @@ export function sectionHead(id, no, th, en, textTh, textEn) {
 
 export function download(file, label, ext) {
   return "<a class='btn secondary small' href='assets/" + file + "' download>" + icon("download", 17) + "<span>" + label + " <b>." + ext + "</b></span></a>";
+}
+
+// The CRM Center logo is drawn in code: a 32px CC tile + "CRM Center" wordmark.
+export function ccLogo(onBlue) {
+  return "<span class='cc-logo" + (onBlue ? " on-blue" : "") + "'><span class='cc-logo-tile'>CC</span>CRM Center</span>";
 }

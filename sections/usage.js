@@ -1,32 +1,56 @@
 import { state } from "../state.js";
-import { icon, sectionHead } from "./shared.js";
+import { icon, ccLogo, sectionHead } from "./shared.js";
+
+// [order id, customer, channel, tone, status TH, status EN, total]
+var orders = [
+  ["SO-2609-0412", "สมศรี ใจดี", "Shopee", "success", "ชำระแล้ว", "Paid", "฿1,290"],
+  ["SO-2609-0411", "ธนากร ศรีสุข", "LINE", "warning", "รอชำระ", "Awaiting payment", "฿640"],
+  ["SO-2609-0409", "มาลี วงศ์ทอง", "Lazada", "info", "กำลังจัดส่ง", "Shipping", "฿2,450"],
+  ["SO-2609-0406", "อาทิตย์ วงศ์ใหญ่", "TikTok Shop", "error", "ชำระไม่สำเร็จ", "Payment failed", "฿980"]
+];
+var toneIcon = { success: "check-circle", warning: "warning-circle", info: "info", error: "x-circle" };
 
 export function renderUsage() {
   var th = state.lang === "th";
+  var navRow = function (ic, label, active) {
+    return "<span class='cc-nav-row" + (active ? " is-active" : "") + "'>" + icon(ic, 18, active ? "bold" : "regular") + "<span>" + label + "</span></span>";
+  };
   return (
-    "<section id='usage' class='section'>" + sectionHead("usage", "10", "ตัวอย่างการใช้งานจริง", "Applied UI example", "นำคอมโพเนนต์และสีของสองทีมมาประกอบเป็นหน้าจอลูกค้า + ออเดอร์ตัวอย่าง เพื่อดูว่าใช้งานร่วมกันอย่างไรในงานจริง", "The components and team colours above, composed into a real customer + order screen.") +
-            "<div class='component-demo'>" +
-              "<div class='customer-pane'>" +
-                "<div class='pane-kicker'><span class='context-badge crm-badge'>" + icon("users", 14) + (th ? "ลูกค้า" : "Customer") + "</span><button class='quiet-action' aria-label='" + (th ? "การทำงานเพิ่มเติม" : "More actions") + "'>" + icon("spark", 18) + "</button></div>" +
-                "<div class='customer-profile'><span class='avatar'>SS</span><div><h4>Siam Studio</h4><p>" + (th ? "ลูกค้าตั้งแต่ มี.ค. 2567" : "Customer since Mar 2024") + "</p></div></div>" +
-                "<dl class='customer-details'>" +
-                  "<div><dt>" + (th ? "โทรศัพท์" : "Phone") + "</dt><dd>081 234 5678</dd></div>" +
-                  "<div><dt>" + (th ? "อีเมล" : "Email") + "</dt><dd>hello@siamstudio.co</dd></div>" +
-                  "<div><dt>" + (th ? "ระดับ" : "Tier") + "</dt><dd>" + (th ? "พันธมิตร" : "Partner") + "</dd></div>" +
-                  "<div><dt>" + (th ? "ผู้ดูแล" : "Owner") + "</dt><dd>" + (th ? "อาทิตย์ ว." : "Arthit W.") + "</dd></div>" +
-                "</dl>" +
-                "<div class='customer-note'><span>" + icon("chat", 18) + "</span><p><b>" + (th ? "บันทึกล่าสุด" : "Latest note") + "</b>" + (th ? "ลูกค้าขอใบเสร็จแยกตามสาขาในออเดอร์ถัดไป" : "Customer asked for a per-branch receipt on the next order.") + "</p></div>" +
-                "<button class='btn secondary specimen-button'>" + icon("user", 16) + "<span>" + (th ? "ดูโปรไฟล์แบบเต็ม" : "View full profile") + "</span></button>" +
-              "</div>" +
-              "<div class='order-pane'>" +
-                "<div class='pane-kicker'><span class='context-badge oms-badge'>" + icon("folder", 14) + (th ? "ออเดอร์" : "Order") + "</span><button class='quiet-action' aria-label='" + (th ? "การทำงานเพิ่มเติม" : "More actions") + "'>" + icon("spark", 18) + "</button></div>" +
-                "<div class='order-heading'><div><h4>Order #A-2049</h4><p class='order-date'>23 " + (th ? "ก.ย. 2569" : "Sep 2026") + "</p></div><span class='order-total'>฿48,500</span></div>" +
-                "<div class='order-progress'><span class='complete'></span><span class='complete'></span><span class='current'></span><span></span></div>" +
-                "<div class='order-status'><span class='status-icon'>" + icon("check", 14) + "</span><div><b>" + (th ? "จัดส่งแล้ว" : "Shipped") + "</b><small>" + (th ? "ถึงลูกค้าโดยประมาณ 25 ก.ย." : "Estimated arrival Sep 25") + "</small></div></div>" +
-                "<div class='order-actions'><button class='btn secondary'>" + icon("receipt", 16) + "<span>" + (th ? "ดูใบเสร็จ" : "View receipt") + "</span></button><button class='btn primary'>" + icon("arrow", 16) + "<span>" + (th ? "ติดต่อลูกค้า" : "Contact customer") + "</span></button></div>" +
-              "</div>" +
+    "<section id='usage' class='section'>" + sectionHead("usage", "10", "ตัวอย่างหน้าจอจริง", "Applied example", "หน้าคำสั่งซื้อของ CRM Center ประกอบจาก AppShell, PageHeader, StatTile, Tabs, Table และ Tag ข้างบน", "The CRM Center orders page, composed from the AppShell, PageHeader, StatTile, Tabs, Table and Tag above.") +
+      "<div class='app-demo cc-backdrop' aria-label='" + (th ? "ตัวอย่างหน้าคำสั่งซื้อ" : "Orders page example") + "' role='img'>" +
+        "<div class='cc-shell'>" +
+          "<div class='cc-shell-side'>" +
+            "<div class='nav-demo-logo'>" + ccLogo(true) + "</div>" +
+            "<div class='cc-nav'>" +
+              "<div class='cc-nav-sec'><span class='cc-nav-head'>ภาพรวม</span>" + navRow("squares-four", "Dashboard") + "</div>" +
+              "<div class='cc-nav-sec'><span class='cc-nav-head'>ลูกค้าและการขาย</span>" + navRow("users-three", "ลูกค้า") + navRow("receipt", "คำสั่งซื้อ", true) + navRow("gift", "สิทธิประโยชน์") + "</div>" +
+              "<div class='cc-nav-sec'><span class='cc-nav-head'>ผู้ดูแลระบบ</span>" + navRow("plugs", "การเชื่อมต่อระบบ") + navRow("gear-six", "ตั้งค่า") + "</div>" +
             "</div>" +
-            "<p class='specimen-caption'>" + (th ? "Badge, Avatar, ปุ่ม และแถบสถานะทั้งหมดมาจากหมวดตัวอย่างคอมโพเนนต์ด้านบน สีเน้น Aqua ฝั่งลูกค้า และ Blue ฝั่งออเดอร์ ตามสัดส่วนการใช้สีของแบรนด์" : "Every badge, avatar, button and status strip here comes from the component specimens above — Aqua accents the customer side, Blue accents the order side, following the brand's colour ratio.") + "</p>" +
-          "</section>"
+          "</div>" +
+          "<div class='cc-shell-panel'>" +
+            "<div class='cc-topbar'>" +
+              "<div class='cc-input-wrap demo-switcher'>" + icon("buildings", 16).replace("class='ph ", "class='ph cc-ico ") + "<span class='cc-input cc-select'><span>บริษัท สยามคอสเมติก จำกัด</span>" + icon("caret-down", 16) + "</span></div>" +
+              "<div class='cc-topbar-end'><span class='cc-icon-btn'>" + icon("moon", 20) + "</span><span class='cc-icon-btn'>" + icon("bell", 20) + "<span class='cc-dot'></span></span><span class='cc-avatar-btn'><span class='cc-avatar'>so</span></span></div>" +
+            "</div>" +
+            "<div class='demo-main'>" +
+              "<div class='cc-page-head'><div><h4 class='cc-h1'>" + (th ? "คำสั่งซื้อ" : "Orders") + "</h4><p class='cc-lead'>" + (th ? "คำสั่งซื้อจากทุกช่องทางของบริษัทที่เลือก อัปเดตทุก 15 นาที" : "Orders from every channel of the selected company, refreshed every 15 minutes.") + "</p></div>" +
+                "<div class='cc-row'><span class='cc-btn cc-btn-default'>" + icon("download-simple", 20) + (th ? "ส่งออกไฟล์" : "Export") + "</span><span class='cc-btn cc-btn-primary'>" + icon("plus", 20, "bold") + (th ? "สร้างคำสั่งซื้อ" : "New order") + "</span></div></div>" +
+              "<div class='cc-grid-4'>" +
+                "<div class='cc-stat'><div class='cc-stat-head'>" + (th ? "คำสั่งซื้อเดือนนี้" : "Orders this month") + "<span class='cc-chip cc-chip-oms'>" + icon("receipt", 20) + "</span></div><span class='cc-stat-value'>3,912</span><span class='cc-stat-note'>Shopee 48% · Lazada 31%</span></div>" +
+                "<div class='cc-stat'><div class='cc-stat-head'>" + (th ? "ยอดขาย 30 วัน" : "Sales, 30 days") + "<span class='cc-chip cc-chip-neutral'>" + icon("coins", 20) + "</span></div><span class='cc-stat-value'>฿1,284,500</span><span class='cc-stat-note'>" + (th ? "+8.2% จาก 30 วันก่อน" : "+8.2% vs previous 30 days") + "</span></div>" +
+                "<div class='cc-stat'><div class='cc-stat-head'>" + (th ? "รอชำระ" : "Awaiting payment") + "<span class='cc-chip cc-chip-warning'>" + icon("warning-circle", 20) + "</span></div><span class='cc-stat-value'>38</span><span class='cc-stat-note'>" + (th ? "เก่าสุด 2 วัน" : "Oldest: 2 days") + "</span></div>" +
+              "</div>" +
+              "<div class='cc-tabs'><span class='cc-tab is-active'>" + (th ? "ทั้งหมด" : "All") + "<span class='cc-tab-count'>1,204</span></span><span class='cc-tab'>" + (th ? "รอชำระ" : "Awaiting") + "<span class='cc-tab-count'>38</span></span><span class='cc-tab'>" + (th ? "กำลังจัดส่ง" : "Shipping") + "<span class='cc-tab-count'>112</span></span></div>" +
+              "<div class='cc-table-wrap'><table class='cc-table'><thead><tr><th>" + (th ? "เลขที่คำสั่งซื้อ" : "Order") + "</th><th>" + (th ? "ลูกค้า" : "Customer") + "</th><th>" + (th ? "ช่องทาง" : "Channel") + "</th><th>" + (th ? "สถานะ" : "Status") + "</th><th class='is-right'>" + (th ? "ยอดรวม" : "Total") + "</th></tr></thead><tbody>" +
+                orders.map(function (o) {
+                  return "<tr><td class='is-strong cc-num'>" + o[0] + "</td><td>" + o[1] + "</td><td class='cc-quiet'>" + o[2] + "</td><td><span class='cc-tag cc-tag-" + o[3] + "'>" + icon(toneIcon[o[3]], 14, "bold") + (th ? o[4] : o[5]) + "</span></td><td class='is-right cc-num'>" + o[6] + "</td></tr>";
+                }).join("") +
+              "</tbody></table></div>" +
+            "</div>" +
+          "</div>" +
+        "</div>" +
+      "</div>" +
+      "<p class='specimen-caption'>" + (th ? "น้ำเงินอยู่ที่โครงและปุ่มหลักปุ่มเดียว เนื้อหาเป็นสีกลาง การ์ดเรียบไม่มีเงา ตัวเลขเงินและเลขออเดอร์ใช้ tabular-nums และทุกสถานะมีไอคอนกำกับ" : "Blue stays in the chrome and the one primary action; content is neutral, cards are flat, money and order IDs use tabular-nums, and every status carries its icon.") + "</p>" +
+    "</section>"
   );
 }

@@ -8,5 +8,8 @@
   },
   "devDependencies": {
     "react-grab": "^0.2.0"
+  },
+  "dependencies": {
+    "motion": "^13.4.2"
   }
 }
