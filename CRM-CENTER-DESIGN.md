@@ -1,25 +1,13 @@
-# CRM Center — RELIO Design System v3
+# CRM Center Design System
 
 > ระบบเดียว คุมได้ทั้งร้าน (CRM + OMS)
 
 Document version: 3.0 · Synced from the CRM Center portal code (feat/crm-center-portal) · 28 September 2026
 Live design system: https://claude.ai/artifact/BAV9vXJmr9krq2EEx8ytfx
-Previous version: RELIO-DESIGN.md (v2, archive)
 
 ## Overview
 
-CRM Center is the admin portal of RELIO: one place where a Thai shop's team manages customers, orders, loyalty points and sales-channel integrations. Brand line: **ระบบเดียว คุมได้ทั้งร้าน** (CRM + OMS). This is version 3 of the RELIO design system. It keeps the v2 neutral tokens for content and adds the portal's blue chrome, Noto Sans Thai, and a floating content panel.
-
-## What changed from v2
-
-| Area | v2 (RELIO app) | v3 (CRM Center portal) |
-|---|---|---|
-| Frame | Neutral page, neutral sidebar | Blue radial backdrop (`portal-blue-100` → `portal-blue-300`) with a 56px white grid; the sidebar sits on it and content floats on `bg-canvas` as a panel with `shadow-panel` |
-| Font | Bai Jamjuree | Noto Sans Thai (`sans`); Bai Jamjuree stays for RELIO brand only |
-| Gradients | Not allowed | Allowed in exactly three places: the sidebar/backdrop, the login illustration, the dashboard hero (`brand-gradient-from` → `brand-gradient-to`). Never on cards, buttons or tables |
-| Active nav | Raised neutral + brand label | White pill fading right, `portal-mark` label (`brand-crm-text` on CRM pages), `shadow-nav-active` |
-| Mascots | Floating 4px max | Floating 10px over 6s (`portal-float`), with a soft blue drop shadow, on blue grounds only |
-| Button press | No scale | `scale(0.97)` on press; disabled under reduced motion |
+CRM Center is an admin portal: one place where a Thai shop's team manages customers, orders, loyalty points and sales-channel integrations. Brand line: **ระบบเดียว คุมได้ทั้งร้าน** (CRM + OMS). The design system uses neutral tokens for content, the portal's blue chrome, Noto Sans Thai, and a floating content panel.
 
 ## Content fundamentals
 
@@ -72,7 +60,7 @@ Paste this into any AI design or coding tool (Claude, v0, Figma Make, Lovable) b
 ## English (recommended for AI tools)
 
 ```text
-You are designing a screen for CRM Center, the Thai admin portal of RELIO (CRM + OMS for Thai shops: customers, orders, loyalty points, sales-channel integrations). Follow the CRM Center design system v3 exactly.
+You are designing a screen for CRM Center, a Thai admin portal (CRM + OMS for Thai shops: customers, orders, loyalty points, sales-channel integrations). Follow the CRM Center design system exactly.
 
 FRAME
 - Full-height app shell. From 1024px: a 240px sidebar sits directly on a blue radial backdrop
@@ -123,7 +111,7 @@ Gradients outside the sidebar, login and dashboard hero; glassmorphism; neon glo
 ## ภาษาไทย (สรุปสั้น)
 
 ```text
-ออกแบบหน้าจอสำหรับ CRM Center พอร์ทัลแอดมินของ RELIO (CRM + OMS สำหรับร้านค้าไทย) ตาม Design System v3
+ออกแบบหน้าจอสำหรับ CRM Center พอร์ทัลแอดมิน (CRM + OMS สำหรับร้านค้าไทย) ตาม Design System
 
 - โครง: เมนูซ้ายกว้าง 240px วางบนพื้นหลังสีน้ำเงินไล่แบบ radial (#2f6ee0 → #1d59cc → #1546ad) มีตารางเส้นขาวจาง 56px ส่วนเนื้อหาเป็นแผงลอย สีพื้น #f7f8fa แถบบนสูง 64px (เลือกบริษัท, ปุ่มธีม, กระดิ่ง, รูปโปรไฟล์)
 - เมนู: แถวสูง 40px มุม 10px ตัวอักษรขาว 90% เมนูที่เลือกอยู่เป็นแคปซูลสีขาว ตัวอักษร #1450cc
@@ -211,15 +199,13 @@ Gradients outside the sidebar, login and dashboard hero; glassmorphism; neon glo
       { "name": "chart-grid", "value": { "light": "#e7eaf0", "dark": "#34383e" }, "usage": "Chart gridlines." },
       { "name": "meter-warning", "value": { "light": "#e08a00", "dark": "#f5a524" }, "usage": "Meter and progress fill for warning (graphic, 3:1 on surface)." },
       { "name": "meter-danger", "value": { "light": "#e5484d", "dark": "#f76b6b" }, "usage": "Meter and progress fill for danger (graphic)." },
-      { "name": "logo-ink", "value": { "light": "#082451", "dark": "#f5f6f7" }, "usage": "RELIO wordmark ink (parent brand)." },
       { "name": "scrim", "value": { "light": "rgba(32, 33, 36, 0.4)", "dark": "rgba(9, 10, 12, 0.7)" }, "usage": "Overlay behind modals and the mobile menu drawer." }
     ]
   },
   "type": {
     "fonts": [],
     "families": {
-      "sans": "\"Noto Sans Thai\", Arial, ui-sans-serif, system-ui, sans-serif",
-      "brand": "\"Bai Jamjuree\", \"Noto Sans Thai\", Arial, ui-sans-serif, system-ui, sans-serif"
+      "sans": "\"Noto Sans Thai\", Arial, ui-sans-serif, system-ui, sans-serif"
     },
     "groups": [
       {
@@ -245,13 +231,6 @@ Gradients outside the sidebar, login and dashboard hero; glassmorphism; neon glo
           { "name": "input", "fontSize": "16px", "lineHeight": 1.5, "fontWeight": 400, "sample": "name@company.co.th", "usage": "Input text below md (prevents iOS zoom); 14px from md." },
           { "name": "table-head", "fontSize": "13px", "lineHeight": 1.4, "fontWeight": 500, "sample": "วันที่สั่งซื้อ", "usage": "Table header cells on bg-raised; small button label." },
           { "name": "caption", "fontSize": "12px", "lineHeight": 1.5, "fontWeight": 400, "sample": "ข้อมูลถึง 28 ก.ย. 2569", "usage": "Metadata, stat notes, tag labels (500), sidebar section headings (600, white 75%)." }
-        ]
-      },
-      {
-        "name": "RELIO brand (parent)",
-        "family": "brand",
-        "styles": [
-          { "name": "relio-display", "fontSize": "64px", "lineHeight": 1.05, "fontWeight": 600, "sample": "RELIO", "usage": "RELIO marketing and the RELIO app only. Not used inside the CRM Center portal." }
         ]
       }
     ]

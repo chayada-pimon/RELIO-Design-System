@@ -154,6 +154,12 @@ function specimenCard(specimen, th) {
     "</div>";
 }
 
+// Markup for one specimen card, so a state change can re-render just that card
+export function renderSpecimen(id) {
+  var specimen = specimens.find(function (s) { return s.id === id; });
+  return specimen ? specimenCard(specimen, state.lang === "th") : "";
+}
+
 function galleryCard(title, desc, body, wide) {
   return "<div class='gallery-card" + (wide ? " wide" : "") + "'><div class='specimen-card-head'><h3>" + title + "</h3><p>" + desc + "</p></div><div class='gallery-stage'>" + body + "</div></div>";
 }

@@ -11,7 +11,6 @@ export const state = {
   tab: "md",
   extended: false,
   demoBySpecimen: {},
-  logoVariant: 0,
 };
 
 export { saved };

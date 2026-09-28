@@ -8,10 +8,10 @@ export function renderOverview() {
       "<div class='hero-card'>" +
         "<img class='hero-float' src='assets/portal/login-mascots.webp' alt='" + (th ? "มาสคอต CRM และ OMS ยืนบนแล็ปท็อป" : "CRM and OMS mascots standing on a laptop") + "' draggable='false'>" +
         "<div class='hero-copy'>" +
-          "<span class='eyebrow'>RELIO DESIGN SYSTEM · V3</span>" +
+          "<span class='eyebrow'>CRM CENTER DESIGN SYSTEM</span>" +
           "<h1>CRM <em>Center</em></h1>" +
           "<p class='hero-kicker'>ระบบเดียว คุมได้ทั้งร้าน</p>" +
-          "<p class='hero-text'>" + (th ? "พอร์ทัลแอดมินของ RELIO ที่ร้านค้าใช้ดูแลลูกค้า คำสั่งซื้อ แต้มสะสม และการเชื่อมต่อช่องทางขาย ในที่เดียว เวอร์ชันนี้ใช้สีกลางเดิมกับเนื้อหา เพิ่มโครงสีน้ำเงิน ฟอนต์ Noto Sans Thai และแผงเนื้อหาลอย" : "RELIO's admin portal where a shop's team manages customers, orders, loyalty points and sales-channel integrations. v3 keeps the neutral content tokens and adds the blue chrome, Noto Sans Thai and a floating content panel.") + "</p>" +
+          "<p class='hero-text'>" + (th ? "มาตรฐานการออกแบบกลางของ CRM Center ทั้งโทเค็น คอมโพเนนต์ และแพทเทิร์น ให้ทุกหน้าหน้าตาตรงกันและส่งต่อเป็นโค้ดได้ทันที" : "One design standard for CRM Center: tokens, components and patterns, so every screen matches and hands straight off to code.") + "</p>" +
           "<div class='hero-actions'><button class='btn primary' data-open-drawer>" + icon("book", 20) + (th ? "เปิดคู่มือแบบละเอียด" : "Open detailed guide") + "</button><a class='btn secondary' href='#concept'>" + (th ? "สำรวจระบบ" : "Explore system") + icon("arrow", 18) + "</a></div>" +
         "</div>" +
       "</div>" +

@@ -4,7 +4,7 @@ import { icon } from "./shared.js";
 export function renderConcept() {
   var th = state.lang === "th";
   return (
-    "<section id='concept' class='section concept-section'><div class='concept-intro'><span class='eyebrow'>" + (th ? "ในไกด์นี้" : "IN THIS GUIDE") + "</span><h2 id='concept-title'>" + (th ? "ทุกอย่างในไกด์นี้ อยู่ในที่เดียว" : "Everything in this guide, at a glance.") + "</h2><p>" + (th ? "ตั้งแต่โลโก้ สี ไปจนถึงคอมโพเนนต์และน้ำเสียง — สำรวจแต่ละหัวข้อได้จากการ์ดด้านล่าง" : "From logo and colour to components and voice — jump into any topic from the cards below.") + "</p></div>" +
+    "<section id='concept' class='section concept-section'><div class='concept-intro'><span class='eyebrow'>" + (th ? "ในไกด์นี้" : "IN THIS GUIDE") + "</span><h2 id='concept-title'>" + (th ? "ทุกอย่างในไกด์นี้ อยู่ในที่เดียว" : "Everything in this guide, at a glance.") + "</h2><p>" + (th ? "ตั้งแต่สี ตัวอักษร ไปจนถึงคอมโพเนนต์และน้ำเสียง — สำรวจแต่ละหัวข้อได้จากการ์ดด้านล่าง" : "From colour and type to components and voice — jump into any topic from the cards below.") + "</p></div>" +
             "<div class='concept-grid'>" +
 
               "<a href='#components' class='concept-card concept-guide'><div class='concept-panel'><div class='ui-preview'>" +

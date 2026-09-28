@@ -15,14 +15,12 @@ export function renderType() {
     "<section id='type' class='section'>" + sectionHead("type", "05", "ตัวอักษร ระยะ และรูปทรง", "Typography, spacing & shape", "ฟอนต์เดียว Noto Sans Thai น้ำหนัก 400/500/600 หัวข้อใช้ 600 ภาษาไทยไม่เว้นระยะตัวอักษร และเนื้อความสูงบรรทัด 1.55 ขึ้นไป", "One family, Noto Sans Thai at 400/500/600. Headings are 600, Thai letter-spacing is 0 and body line-height is 1.55 or more.") +
       "<div class='font-pair'>" +
         "<div class='font-card'><div><span class='eyebrow'>PORTAL FONT · SANS</span><h3>Noto Sans Thai</h3><p>Thai + Latin · 400 / 500 / 600 · fallback: Arial, system-ui</p></div><a class='text-link' href='https://fonts.google.com/noto/specimen/Noto+Sans+Thai' target='_blank' rel='noreferrer'>Google Fonts " + icon("arrow", 17) + "</a><div class='font-sample'><span>ก ข ค</span><span>Aa Bb Cc</span><span class='num'>0123456789</span></div></div>" +
-        "<div class='font-card brand'><div><span class='eyebrow'>RELIO BRAND · PARENT</span><h3>Bai Jamjuree</h3><p>" + (th ? "ใช้กับแบรนด์ RELIO เท่านั้น ไม่ใช้ในพอร์ทัล" : "RELIO brand only, never inside the portal") + "</p></div><a class='text-link' href='https://fonts.google.com/specimen/Bai+Jamjuree' target='_blank' rel='noreferrer'>Google Fonts " + icon("arrow", 17) + "</a><div class='font-sample'><span>RELIO</span></div></div>" +
       "</div>" +
       "<div class='type-scale-head'><h3 class='subhead'>Type scale</h3><div class='seg type-language' role='group' aria-label='Type sample language'><button data-type-lang='th' aria-pressed='" + sampleTh + "' class='" + (sampleTh ? "active" : "") + "'>ไทย</button><button data-type-lang='en' aria-pressed='" + !sampleTh + "' class='" + (!sampleTh ? "active" : "") + "'>EN</button></div></div>" +
       typeGroups.map(function (g) {
         return "<div class='type-group'><h4>" + g.name + "</h4><div class='type-table'>" + g.styles.map(function (s) {
-          var family = g.family === "brand" ? "var(--font-brand)" : "var(--font-sans)";
           var num = s[0] === "stat-value" ? ";font-variant-numeric:tabular-nums" : "";
-          return "<div class='type-row'><code>" + s[0] + "</code><div class='type-sample' style='font-family:" + family + ";font-size:clamp(12px,9cqw," + s[1] + "px);font-weight:" + s[3] + ";line-height:" + s[2] + num + "'>" + (sampleTh ? s[4] : s[5]) + "</div><small>" + s[1] + "px · " + s[3] + " · " + s[2] + "<br>" + (th ? s[6] : s[7]) + "</small></div>";
+          return "<div class='type-row'><code>" + s[0] + "</code><div class='type-sample' style='font-family:var(--font-sans);font-size:clamp(12px,9cqw," + s[1] + "px);font-weight:" + s[3] + ";line-height:" + s[2] + num + "'>" + (sampleTh ? s[4] : s[5]) + "</div><small>" + s[1] + "px · " + s[3] + " · " + s[2] + "<br>" + (th ? s[6] : s[7]) + "</small></div>";
         }).join("") + "</div></div>";
       }).join("") +
       "<div class='spec-grid'>" +

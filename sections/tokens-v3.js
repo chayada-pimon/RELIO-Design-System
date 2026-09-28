@@ -1,4 +1,4 @@
-// CRM Center v3 tokens — mirrors project/tokens.json of the CRM Center design system.
+// CRM Center tokens — mirrors project/tokens.json of the CRM Center design system.
 // Colour rows: [name, light, dark, usage TH, usage EN].
 
 export var colorGroups = [
@@ -29,8 +29,7 @@ export var colorGroups = [
       ["crm-badge-bg", "#ddf7f8", "#12383c", "พื้นอ่อน CRM: แท็ก อวาตาร์ ชิป", "Soft CRM fill: tags, avatars, chips"],
       ["crm-badge-text", "#076f7a", "#5edae0", "ข้อความบน crm-badge-bg", "Text and icons on crm-badge-bg"],
       ["oms-badge-bg", "#e1ecff", "#162d50", "พื้นอ่อน OMS: ชิปและแบดจ์ออเดอร์", "Soft OMS fill: chips, order badges"],
-      ["oms-badge-text", "#1463d6", "#75a7ff", "ข้อความบน oms-badge-bg", "Text and icons on oms-badge-bg"],
-      ["logo-ink", "#082451", "#f5f6f7", "หมึกโลโก้ RELIO (แบรนด์แม่)", "RELIO wordmark ink (parent brand)"]
+      ["oms-badge-text", "#1463d6", "#75a7ff", "ข้อความบน oms-badge-bg", "Text and icons on oms-badge-bg"]
     ]
   },
   {
@@ -85,7 +84,6 @@ export var colorGroups = [
 ];
 
 export var fontSans = "\"Noto Sans Thai\", Arial, ui-sans-serif, system-ui, sans-serif";
-export var fontBrand = "\"Bai Jamjuree\", \"Noto Sans Thai\", Arial, ui-sans-serif, system-ui, sans-serif";
 
 // [name, size, lineHeight, weight, sample TH, sample EN, usage TH, usage EN]
 export var typeGroups = [
@@ -110,12 +108,6 @@ export var typeGroups = [
       ["input", 16, 1.5, 400, "name@company.co.th", "name@company.co.th", "ข้อความในช่องกรอกต่ำกว่า md (14px ตั้งแต่ md)", "Input text below md (14px from md)"],
       ["table-head", 13, 1.4, 500, "วันที่สั่งซื้อ", "Order date", "หัวตาราง ปุ่มขนาดเล็ก", "Table headers, small buttons"],
       ["caption", 12, 1.5, 400, "ข้อมูลถึง 28 ก.ย. 2569", "Data as of 28 Sep 2026", "เมทาดาทา โน้ตสถิติ หัวข้อกลุ่มเมนู", "Metadata, stat notes, nav headings"]
-    ]
-  },
-  {
-    name: "RELIO brand (parent)", family: "brand",
-    styles: [
-      ["relio-display", 64, 1.05, 600, "RELIO", "RELIO", "งานการตลาดและแอป RELIO เท่านั้น ไม่ใช้ในพอร์ทัล", "RELIO marketing only, not in the portal"]
     ]
   }
 ];
@@ -171,7 +163,7 @@ export function cssVariables() {
     .concat(radii.map(function (r) { return "  --" + r[0] + ": " + r[1] + ";"; }))
     .concat(shadows.map(function (s) { return "  --" + s[0] + ": " + s[1] + ";"; }))
     .concat(durations.map(function (d) { return "  --" + d[0] + ": " + d[1] + ";"; }));
-  return "/* CRM Center v3 — RELIO design system */\n:root {\n  --font-sans: " + fontSans + ";\n  --font-brand: " + fontBrand + ";\n" +
+  return "/* CRM Center design system */\n:root {\n  --font-sans: " + fontSans + ";\n" +
     light.join("\n") + "\n" + rest.join("\n") + "\n}\n\n[data-theme='dark'] {\n" + dark.join("\n") + "\n}";
 }
 
@@ -190,7 +182,7 @@ export function tokensJson() {
     name: "CRM Center",
     version: 3,
     color: { themes: [{ id: "light", name: "Light" }, { id: "dark", name: "Dark" }], tokens: colors },
-    type: { families: { sans: fontSans, brand: fontBrand } },
+    type: { families: { sans: fontSans } },
     spacing: { tokens: spacing.map(entry) },
     radius: { tokens: radii.map(entry) },
     shadow: { tokens: shadows.map(entry) },
